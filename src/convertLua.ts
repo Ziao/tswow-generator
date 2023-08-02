@@ -1,5 +1,9 @@
-import { ensureDir, readdir, readFile, writeFile } from "fs-extra";
+import { ensureDir, readdir, readFile, remove, writeFile } from "fs-extra";
 import { fixes } from "./fixes";
+
+// After careful consideration and several attempts, I found that it is exponentially easier to simply convert the lua
+// code to javascript and then parse that, than it is to parse the LUA code into an AST and go from there.
+// While this code may not be perfect, and certainly won't work for all lua code, it works for the Blizzard API docs.
 
 (async () => {
     const documentationModules: any[] = [];
@@ -7,26 +11,9 @@ import { fixes } from "./fixes";
     const path = "./wow-ui-source/Interface/Addons/Blizzard_APIDocumentationGenerated";
     const apiDocsLuaFiles = await readdir(path);
 
-    // We have a bit of a weird situation here
-    // Some "constants" refer to other constants within the lua file
-    // Those other constants are documented - but they of course do not exist in the lua file
-    // Just so we can parse everything, instead of coming up with some insane hacks, we'll just
-    // write out these needed constants ourselves, we'll just have to periodically check if they
-    // have changed.
-    // At the moment, there's only two files that need this, so it's not too bad.
-
-    // const fixes = {
-    //     'CharacterCustomizationSharedDocumentation.lua': [
-    //         'CustomOptionTattoo':
-    //     ]
-    // }
-
     for (const file of apiDocsLuaFiles) {
         // We only care about lua files
         if (!file.endsWith(".lua")) continue;
-
-        // if (!file.includes("VoiceChat")) continue;
-        // if (!file.includes("CharacterC")) continue;
 
         const module = file.replace("Documentation.lua", "");
 
@@ -105,5 +92,14 @@ import { fixes } from "./fixes";
         }
     }
 
-    await writeFile("./temp/_documentationModules.json", JSON.stringify(documentationModules, null, 4));
+    await writeFile("./temp/documentationModules.json", JSON.stringify(documentationModules, null, 4));
+
+    // Delete all the files in temp, except for documentationModules.json
+    const tempFiles = await readdir("./temp");
+    for (const file of tempFiles) {
+        if (file === "_documentationModules.json") continue;
+        await remove(`./temp/${file}`);
+    }
+
+    console.log("Done!");
 })();

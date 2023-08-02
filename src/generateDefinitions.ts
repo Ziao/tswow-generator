@@ -1,4 +1,3 @@
-import { execSync, spawnSync } from "child_process";
 import { ensureDir, remove, writeFile } from "fs-extra";
 import documentationModules from "../temp/_documentationModules.json";
 import { extractConstants } from "./lib/constants";
@@ -9,6 +8,8 @@ import { extractInterfaces } from "./lib/interfaces";
 import { setEnums } from "./lib/types";
 import { DocumentationModule } from "./types/documentationModule";
 import prettier from "prettier";
+
+// Todo: this file needs some cleaning :D
 
 (async () => {
     const typesBasePath = "./dist/types/generated";
