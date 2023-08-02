@@ -5,7 +5,8 @@
     "version": "0.0.1",
     "scripts": {
         "dev:convert": "nodemon -w src src/convertLua.ts",
-        "dev:generate": "nodemon -w src src/generateDefinitions.ts"
+        "dev:generate": "nodemon -w src src/generateDefinitions.ts",
+        "format": "prettier --write \"src/**/*.ts\""
     },
     "prettier": {
         "printWidth": 120,
