@@ -20,7 +20,7 @@ import prettier from "prettier";
     setEnums(allEnumNames);
 
     for (const module of documentationModules as DocumentationModule[]) {
-        if (module.Name !== "CharacterCustomizationShared") continue;
+        // if (module.Name !== "CharacterCustomizationShared") continue;
         // if (module.Name !== "Unit") continue;
         // if (module.Name !== "Club") continue;
 
@@ -45,7 +45,7 @@ import prettier from "prettier";
         // Functions
         if (module.Functions) {
             const functions = module.Functions.map((f) => processFunction(f, !module.Namespace));
-            if (module.Namespace) contents += wrapInNamespace(module.Namespace, functions.join("\n\n")) + "\n\n";
+            if (module.Namespace) contents += wrapInNamespace(module.Namespace, functions.join("\n\n"), true) + "\n\n";
             else contents += functions.join("\n\n") + "\n\n";
         }
 
