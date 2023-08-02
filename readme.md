@@ -49,3 +49,4 @@ If you have any crazy ideas, please open an issue first so no time is wasted.
 - [ ] Tests
 - [ ] Set up husky and commitlint
 - [ ] Should we use objects instead of enums? Enums have two way mapping, but within wow, they don't
+- [ ] Figure out whether secure functions are simply not documented or if they have a flag.. or maybe they are documented without a flag. Maybe we can get this info from Wowpedia and mark those functions as @deprecated, not perfect but at least your IDE will warn you.
