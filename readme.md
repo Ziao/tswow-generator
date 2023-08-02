@@ -1,5 +1,5 @@
-## @tswow/types-live and @tswow/types-classic
-#### Tool to generate complete and strict typescript definitions World of Warcraft's Lua API for addon development.
+# @tswow/types
+### A tool to generate complete and strict typescript definitions for World of Warcraft's Lua API, to assist in addon development.
 
 Addon development for World of Warcraft is done in Lua and is notoriously difficult to debug. Official documentation has only recently been made available and is only accessible through the game client. This project aims to provide a complete and strict typescript definition of the Lua API, by analyzing Blizzard's embedded documentation and generating typescript definitions from it.
 
