@@ -20,6 +20,6 @@ const parseArgs = (func: Function) => {
         // todo: stride index - wut
         // todo: enumValue - enum
 
-        return `${arg.Name + (arg.Nilable && "?")}: ${convertType(arg.Type)}`;
+        return `${arg.Name + (arg.Nilable ? "?" : "")}: ${convertType(arg.Type)}`;
     }).join(", ");
 };
