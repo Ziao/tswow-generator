@@ -47,3 +47,5 @@ If you have any crazy ideas, please open an issue first so no time is wasted.
 - [ ] Mechanism to add our own documentation for functions that are not documented by Blizzard.
 - [ ] After the above, maybe we can scrape Wowpedia for the documentation of undocumented functions (with attribution), or at least add links to Wowpedia.
 - [ ] Tests
+- [ ] Set up husky and commitlint
+- [ ] Should we use objects instead of enums? Enums have two way mapping, but within wow, they don't
