@@ -1,10 +1,11 @@
 import { ensureDir, remove, writeFile } from "fs-extra";
-import documentationModules from "../temp/_documentationModules.json";
+import documentationModules from "../temp/documentationModules.json";
 import { extractConstants } from "./lib/constants";
 import { extractAllEnumNames, extractEnums } from "./lib/enums";
 import { processFunction } from "./lib/functions";
 import { wrapInNamespace } from "./lib/namespaces";
 import { extractInterfaces } from "./lib/interfaces";
+import { traverseFolder } from "./lib/traverse";
 import { setEnums } from "./lib/types";
 import { DocumentationModule } from "./types/documentationModule";
 import prettier from "prettier";
@@ -12,7 +13,7 @@ import prettier from "prettier";
 // Todo: this file needs some cleaning :D
 
 (async () => {
-    const typesBasePath = "./dist/types/generated";
+    const typesBasePath = "./dist/types";
     await remove(typesBasePath);
     await ensureDir(typesBasePath);
 
@@ -70,11 +71,21 @@ import prettier from "prettier";
             contents = await prettier.format(contents, { parser: "typescript", printWidth: 120, tabWidth: 4 });
             await writeFile(`${moduleBasePath}/functions.d.ts`, contents);
         }
-
-        // Format types with prettier
     }
-    // await prettier.format(contents, { parser: "typescript", printWidth: 120, tabWidth: 4 });
 
     // Run prettier on the generated files
     // spawnSync(`yarn prettier --write ${typesBasePath}`, { stdio: "inherit", cwd: process.cwd() });
+
+    // Include all files in the index type file
+    let includes =
+        `// Generated, do not edit by hand\n\n` +
+        `// export * from "./global";\n` +
+        `export * from "./undocumented";\n\n`;
+    await traverseFolder("./dist/types", (path) => {
+        console.log(`Including ${path}..`);
+        // includes += `export * from "${path.replace("./dist/", "").replace(/(\.d)?\.ts$/, "")}";\n`;
+        includes += `import "${path.replace("./dist/", "").replace(/(\.d)?\.ts$/, "")}";\n`;
+    });
+
+    await writeFile("./dist/index.d.ts", includes);
 })();

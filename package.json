@@ -1,6 +1,9 @@
 {
     "name": "@tswow/types",
     "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
     "license": "MIT",
     "version": "0.0.1",
     "scripts": {

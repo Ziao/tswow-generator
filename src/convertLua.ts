@@ -5,6 +5,10 @@ import { fixes } from "./fixes";
 // code to javascript and then parse that, than it is to parse the LUA code into an AST and go from there.
 // While this code may not be perfect, and certainly won't work for all lua code, it works for the Blizzard API docs.
 
+// We've also tried to simply run the LUA script and export the table as a json file - the problem is that some of the
+// values in the table are using calculated values, relying on constants only available within the game, and we don't
+// have access to those. So we parse the LUA code and extract the values ourselves.
+
 (async () => {
     const documentationModules: any[] = [];
 
@@ -14,6 +18,8 @@ import { fixes } from "./fixes";
     for (const file of apiDocsLuaFiles) {
         // We only care about lua files
         if (!file.endsWith(".lua")) continue;
+
+        // if (file !== "UnitDocumentation.lua") continue;
 
         const module = file.replace("Documentation.lua", "");
 
@@ -97,7 +103,7 @@ import { fixes } from "./fixes";
     // Delete all the files in temp, except for documentationModules.json
     const tempFiles = await readdir("./temp");
     for (const file of tempFiles) {
-        if (file === "_documentationModules.json") continue;
+        if (file === "documentationModules.json") continue;
         await remove(`./temp/${file}`);
     }
 
