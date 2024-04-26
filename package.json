@@ -9,6 +9,7 @@
     "scripts": {
         "dev:convert": "nodemon -w src src/convertLua.ts",
         "dev:generate": "nodemon -w src src/generateDefinitions.ts",
+        "generate": "ts-node src/generateDefinitions.ts",
         "format": "prettier --write \"src/**/*.ts\""
     },
     "prettier": {
