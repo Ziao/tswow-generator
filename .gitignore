@@ -7,4 +7,5 @@ desktop.ini
 *.log
 temp
 dist
-*.log
+package/*
+*.tgz
